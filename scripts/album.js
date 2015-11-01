@@ -75,9 +75,13 @@ var setCurrentAlbum = function(album) {
      }
  };
 
-    var albumArray = [albumTool, albumPicasso, albumMarconi]
-    var clickNumber = 0;
- 
+var albumArray = [albumTool, albumPicasso, albumMarconi]
+var clickNumber = 1;
+
+window.onload = function() {
+    setCurrentAlbum(albumArray[0])
+}
+
 document.getElementById('cover-art').addEventListener('click', function() {
         setCurrentAlbum(albumArray[clickNumber]);
         clickNumber++;
