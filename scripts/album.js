@@ -13,7 +13,7 @@
      ]
  };
  
- // Another Example Album
+
  var albumMarconi = {
      name: 'The Telephone',
      artist: 'Guglielmo Marconi',
@@ -29,6 +29,21 @@
      ]
  };
 
+ var albumTool = {
+     name: 'Ænima',
+     artist: 'Tool',
+     label: 'Zoo Entertainment',
+     year: '1996',
+     albumArtUrl: 'assets/images/album_covers/tool-album-cover.jpg',
+     songs: [
+         { name: 'Stinkfish', length: '5:11' },
+         { name: 'Eulogy', length: '8:29' },
+         { name: 'H.', length: '6:07'},
+         { name: 'Useful Idiot', length: '0:39' },
+         { name: 'Forty Six & 2', length: '6:04'}
+     ]
+ };
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -41,7 +56,7 @@ var createSongRow = function(songNumber, songName, songLength) {
      return template;
  };
 
- var setCurrentAlbum = function(album) {
+var setCurrentAlbum = function(album) {
      var albumTitle = document.getElementsByClassName('album-view-title')[0];
      var albumArtist = document.getElementsByClassName('album-view-artist')[0];
      var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
@@ -59,7 +74,15 @@ var createSongRow = function(songNumber, songName, songLength) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
      }
  };
+
+    var albumArray = [albumTool, albumPicasso, albumMarconi]
+    var clickNumber = 0;
  
- window.onload = function() {
-     setCurrentAlbum(albumPicasso);
- };
+document.getElementById('cover-art').addEventListener('click', function() {
+        setCurrentAlbum(albumArray[clickNumber]);
+        clickNumber++;
+
+    if (clickNumber >= albumArray.length) {
+        clickNumber = 0;
+    }
+ });
