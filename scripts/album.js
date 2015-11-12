@@ -24,18 +24,19 @@ var createSongRow = function(songNumber, songName, songLength) {
             setSong(songNumber);
             currentSoundFile.play();
             $(this).html(pauseButtonTemplate);
+            currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
             updatePlayerBarSong();
         } else if (currentlyPlayingSongNumber === songNumber) {
                 // Switch from Pause -> Play button to pause currently playing song.
-            if (currentSoundFile.isPaused()) {
-                $(this).html(playButtonTemplate);
-                $('.main-controls .play-pause').html(playerBarPlayButton);
+              if (currentSoundFile.isPaused()) {
+                $(this).html(pauseButtonTemplate);
+                $('.main-controls .play-pause').html(playerBarPauseButton);
                 currentSoundFile.play();
-             } else {
+              } else {
                 $(this).html(playButtonTemplate);
                 $('.main-controls .play-pause').html(playerBarPlayButton);
-                currentSoundFile.pause();
-               }
+                currentSoundFile.pause();   
+              }
             }
      };
 
@@ -181,9 +182,22 @@ var setVolume = function(volume) {
      }
  };
 
+var togglePlayFromPlayerBar = function() {
+    var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+    if (currentSoundFile.isPaused()) {
+        $currentlyPlayingCell.html(pauseButtonTemplate);
+        $(this).html(playerBarPauseButton);
+        currentSoundFile.play();
+   } else if (currentSoundFile) {
+        $currentlyPlayingCell.html(playButtonTemplateButtonTemplate);
+        $(this).html(playerBarPlayButtonButton);
+        currentSoundFile.pause(); 
+   }
+};
+
 var getSongNumberCell = function(number) {
     return $('.song-item-number[data-song-number="' + number + '"]');
-}
+};
 
 var albumArray = [albumTool, albumPicasso, albumMarconi];
 var clickNumber = 1;
@@ -197,6 +211,7 @@ var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentSoundFile = null;
 var currentVolume = 80;
+var $playPauseButton = $('.main-controls .play-pause');
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
@@ -205,6 +220,7 @@ var $nextButton = $('.main-controls .next');
     setCurrentAlbum(albumArray[0]);
     $previousButton.click(previousSong);
     $nextButton.click(nextSong);
+    $playerBarPlayPause.click(togglePlayFromPlayerBar);
 });
 
 document.getElementById('cover-art').addEventListener('click', function() {
