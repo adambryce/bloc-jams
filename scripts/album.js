@@ -3,7 +3,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
       ;
  
@@ -51,7 +51,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
      var onHover = function(event) {
          var songNumberCell = $(this).find('.song-item-number');
-         var songNumber = songNumberCell.attr('data-song-number');
+         var songNumber = parseInt(songNumberCell.attr('data-song-number'));
 
         if (songNumber !== currentlyPlayingSongNumber) {
              songNumberCell.html(playButtonTemplate);
@@ -110,7 +110,7 @@ var filterTimeCode = function(timeInSeconds) {
     var minutes = Math.floor(wholeSeconds / 60);
     var remainingSeconds = wholeSeconds % 60;
     
-    var output = minutes + ':' + remainingSeconds;
+    var output = minutes + ':';
     
     if (remainingSeconds < 10) {
         output += '0';
@@ -130,7 +130,7 @@ var updateSeekBarWhileSongPlays = function() {
              var $seekBar = $('.seek-control .seek-bar');
  
              updateSeekPercentage($seekBar, seekBarFillRatio);
-             setCurrentTimeInPlayerBar(currentTime);
+             setCurrentTimeInPlayerBar(filterTimeCode(currentTime));
          });
      }
  };
